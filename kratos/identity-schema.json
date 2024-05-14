@@ -1,0 +1,67 @@
+{
+  "$id": "default",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User",
+  "type": "object",
+  "properties": {
+    "traits": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "title": "First Name",
+          "type": "string"
+        },
+        "last_name": {
+          "title": "Last Name",
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "E-Mail",
+          "examples": [
+            "john@developer-friendly.blog"
+          ],
+          "minLength": 3,
+          "ory.sh/kratos": {
+            "credentials": {
+              "password": {
+                "identifier": true
+              },
+              "webauthn": {
+                "identifier": true
+              },
+              "totp": {
+                "account_name": true
+              }
+            },
+            "verification": {
+              "via": "email"
+            },
+            "recovery": {
+              "via": "email"
+            }
+          }
+        },
+        "company_name": {
+          "type": "string",
+          "title": "Company Name",
+          "default": "default"
+        },
+        "job_title": {
+          "type": "string",
+          "title": "Job Title",
+          "default": "Not Set"
+        }
+      },
+      "required": [
+        "email",
+        "first_name",
+        "last_name",
+        "company_name",
+        "job_title"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

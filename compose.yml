@@ -1,0 +1,56 @@
+services:
+  frontend:
+    image: ghcr.io/meysam81/github-actions-dynamic-matrix/httpd-server:main
+    user: "1000:1000"
+    volumes:
+      - ./frontend:/www:ro
+    ports:
+      - "8080:8080"
+  kratos-migrate:
+    image: oryd/kratos:v1.1.0
+    command:
+      - migrate
+      - sql
+      - --yes
+      - --read-from-env
+      - --config
+      - /etc/kratos/config.yml
+    volumes:
+      - ./kratos:/etc/kratos:ro
+    restart: on-failure
+  kratos:
+    image: oryd/kratos:v1.1.0
+    command:
+      - serve
+      - --config
+      - /etc/kratos/config.yml
+    volumes:
+      - ./kratos:/etc/kratos:ro
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    depends_on:
+      - postgres
+      - kratos-migrate
+  postgres:
+    image: postgres:16-alpine
+    volumes:
+      - /var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d:ro
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: ory
+      POSTGRES_USER: ory
+      POSTGRES_PASSWORD: ory
+  echo-server:
+    image: ghcr.io/developer-friendly/echo-server:9051352755
+    expose:
+      - "3000"
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    expose:
+      - "1025"
+    ports:
+      - "4436:4436"
+      - "4437:4437"

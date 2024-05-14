@@ -1,0 +1,444 @@
+identity:
+  schemas:
+    - id: users
+      url: file:///etc/kratos/identity-schema.json
+  default_schema_id: users
+dsn: postgres://kratos:kratos@postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+selfservice:
+  default_browser_return_url: http://localhost:8080
+  flows:
+    logout:
+      after:
+        default_browser_return_url: http://localhost:8080
+    registration:
+      login_hints: false
+      ui_url: http://localhost:8080/registration.html
+      lifespan: 1h
+      before:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/registration/before
+              method: POST
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              emit_analytics_event: false
+              response:
+                ignore: true
+      after:
+        password:
+          hooks:
+            - hook: session
+          default_browser_return_url: http://localhost:8080
+        webauthn:
+          hooks:
+            - hook: session
+          default_browser_return_url: http://localhost:8080
+        oidc:
+          hooks:
+            - hook: session
+          default_browser_return_url: http://localhost:8080
+        code:
+          hooks:
+            - hook: session
+          default_browser_return_url: http://localhost:8080
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/registration/after
+              method: POST
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              emit_analytics_event: false
+              response:
+                ignore: true
+        default_browser_return_url: http://localhost:8080
+      enabled: true
+    login:
+      lifespan: 1h
+      before:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/login/before
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              emit_analytics_event: false
+              response:
+                ignore: true
+      after:
+        password:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        webauthn:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        oidc:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        code:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        totp:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        lookup_secret:
+          hooks:
+            - hook: revoke_active_sessions
+          default_browser_return_url: http://localhost:8080
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/login/after
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              emit_analytics_event: false
+              response:
+                ignore: true
+        default_browser_return_url: http://localhost:8080
+      ui_url: http://localhost:8080/login.html
+    verification:
+      ui_url: http://localhost:8080/verify
+      after:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/verify/after
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              emit_analytics_event: false
+              response:
+                ignore: true
+        default_browser_return_url: http://localhost:8080
+      lifespan: 1h
+      before:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/verify/before
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              response:
+                ignore: true
+              emit_analytics_event: false
+      use: link
+      notify_unknown_recipients: false
+      enabled: true
+    recovery:
+      ui_url: http://localhost:8080/verify
+      after:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/recovery/after
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              response:
+                ignore: true
+              emit_analytics_event: false
+        default_browser_return_url: http://localhost:8080
+      lifespan: 1h
+      before:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/recovery/before
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              response:
+                ignore: true
+              emit_analytics_event: false
+      use: link
+      notify_unknown_recipients: false
+      enabled: true
+    error:
+      ui_url: http://localhost:8080/error
+    settings:
+      lifespan: 1h
+      privileged_session_max_age: 1h
+      required_aal: aal1
+      after:
+        password:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/password
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                can_interrupt: false
+                response:
+                  ignore: true
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        totp:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/totp
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                can_interrupt: false
+                response:
+                  ignore: true
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        oidc:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/oidc
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                can_interrupt: false
+                response:
+                  ignore: true
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        webauthn:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/webauthn
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                response:
+                  ignore: true
+                can_interrupt: false
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        lookup_secret:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/lookup_secret
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                can_interrupt: false
+                response:
+                  ignore: true
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        profile:
+          hooks:
+            - hook: web_hook
+              config:
+                url: http://echo-server:3000/settings/profile
+                method: ""
+                body: file:///etc/kratos/debug.jsonnet
+                can_interrupt: false
+                response:
+                  ignore: true
+                emit_analytics_event: false
+          default_browser_return_url: http://localhost:8080
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/settings/after
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              can_interrupt: false
+              response:
+                ignore: true
+              emit_analytics_event: false
+        default_browser_return_url: http://localhost:8080
+      before:
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://echo-server:3000/settings/before
+              method: ""
+              body: file:///etc/kratos/debug.jsonnet
+              response:
+                ignore: true
+              can_interrupt: false
+              emit_analytics_event: false
+      ui_url: http://localhost:8080/user/settings
+  methods:
+    link:
+      config:
+        lifespan: 1h
+        base_url: http://localhost:4433
+      enabled: true
+    code:
+      mfa_enabled: false
+      passwordless_login_fallback_enabled: true
+      enabled: false
+      config:
+        lifespan: 1h
+      passwordless_enabled: false
+    password:
+      config:
+        haveibeenpwned_enabled: false
+        max_breaches: 0
+        ignore_network_errors: false
+        min_password_length: 6
+        identifier_similarity_check_enabled: false
+        haveibeenpwned_host: ""
+      enabled: true
+    totp:
+      config:
+        issuer: ""
+      enabled: false
+    lookup_secret:
+      enabled: false
+    webauthn:
+      config:
+        rp:
+          id: ory.sh
+          display_name: Ory Foundation
+          icon: https://www.ory.sh/an-icon.png
+        passwordless: false
+      enabled: false
+    oidc:
+      config:
+        providers: []
+        base_redirect_uri: https://auth.myexample.org/
+      enabled: false
+    profile:
+      enabled: true
+  allowed_return_urls:
+    - http://localhost:8080
+courier:
+  message_retries: 10
+  worker:
+    pull_wait: 0ns
+    pull_count: -100000000
+  delivery_strategy: smtp
+  smtp:
+    from_address: no-reply@developer-friendly.blog
+    from_name: Developer Friendly
+    connection_uri: smtps://mailslurper:1025/?skip_ssl_verify=true
+oauth2_provider:
+  headers:
+    Authorization: Bearer some-token
+  override_return_to: false
+  url: https://some-slug.projects.oryapis.com
+preview:
+  default_read_consistency_level: strong
+serve:
+  public:
+    cors:
+      allowed_origins:
+        - http://localhost:8080
+      allowed_methods:
+        - POST
+        - GET
+        - OPTIONS
+      allow_credentials: true
+      allowed_headers:
+        - Authorization
+        - Content-Type
+        - Cookie
+        - Origin
+        - X-CSRF-Token
+      options_passthrough: true
+      max_age: 0
+      debug: true
+      enabled: true
+    base_url: http://localhost:4433/
+    port: 4433
+    request_log:
+      disable_for_health: false
+  admin:
+    base_url: http://localhost:4434/
+    port: 4434
+    request_log:
+      disable_for_health: false
+# tracing:
+#   service_name: Ory Hydra
+#   providers:
+#     zipkin:
+#       sampling:
+#         sampling_ratio: 0.4
+#       server_url: http://localhost:9411/api/v2/spans
+#     otlp:
+#       insecure: false
+#       sampling:
+#         sampling_ratio: 0.4
+#       server_url: localhost:4318
+#     jaeger:
+#       sampling:
+#         trace_id_ratio: 0.5
+#         server_url: http://localhost:5778/sampling
+#       local_agent_address: 127.0.0.1:6831
+#   provider: jaeger
+log:
+  leak_sensitive_values: false
+  redaction_text: ""
+  format: json
+  level: trace
+secrets:
+  cookie:
+    - ABCDEFGHIJKLMNOP
+  cipher:
+    - ABCDEFGHIJKLMNOPABCDEFGHIJKLMNOP
+  default:
+    - ABCDEFGHIJKLMNOP
+hashers:
+  argon2:
+    iterations: 1
+    parallelism: 1
+    salt_length: 16
+    key_length: 16
+    expected_duration: 0ns
+    expected_deviation: 0ns
+    dedicated_memory: 0B
+    memory: 0B
+  bcrypt:
+    cost: 4
+  algorithm: argon2
+ciphers:
+  algorithm: noop
+cookies:
+  path: /
+  same_site: None
+  domain: localhost
+session:
+  lifespan: 1h
+  cookie:
+    path: /
+    persistent: false
+    same_site: None
+    domain: localhost
+  earliest_possible_extend: 1h
+  whoami:
+    tokenizer:
+      templates:
+        a:
+          jwks_url: http://echo-server:3000
+          claims_mapper_url: http://echo-server:3000
+          ttl: 0ns
+    required_aal: aal1
+dev: true
+help: false
+sqa-opt-out: false
+watch-courier: true
+expose-metrics-port: 4434
+config:
+  - ""
+clients:
+  http:
+    private_ip_exception_urls:
+      - http://echo-server:3000
+    disallow_private_ip_ranges: false
+feature_flags:
+  use_continue_with_transitions: false
+  cacheable_sessions: false
+organizations: []
+database:
+  cleanup:
+    sleep:
+      tables: 0ns
+    older_than: 0ns
+    batch_size: 1
