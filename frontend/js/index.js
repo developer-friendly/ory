@@ -19,7 +19,7 @@ let values = [
   traits.company_name,
 ];
 
-headers.forEach((header, index) => {
+function createRow(header, value) {
   let tr = document.createElement("tr");
 
   let th = document.createElement("th");
@@ -27,10 +27,21 @@ headers.forEach((header, index) => {
   tr.appendChild(th);
 
   let td = document.createElement("td");
-  td.textContent = values[index];
+  td.textContent = value;
   tr.appendChild(td);
 
-  table.appendChild(tr);
+  return tr;
+}
+
+headers.forEach((header, index) => {
+  var row = createRow(header, values[index]);
+  table.appendChild(row);
 });
+
+var emailVerified = data.identity.verifiable_addresses[0].verified;
+table.appendChild(createRow("Email Verified", emailVerified));
+
+var authenticationMethod = data.authentication_methods[0].method;
+table.appendChild(createRow("Authentication Method", authenticationMethod));
 
 document.getElementById("app").appendChild(table);
