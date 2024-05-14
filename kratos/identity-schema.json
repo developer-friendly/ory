@@ -1,57 +1,55 @@
 {
   "$id": "default",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "User",
-  "type": "object",
   "properties": {
     "traits": {
-      "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "first_name": {
-          "title": "First Name",
-          "type": "string"
-        },
-        "last_name": {
-          "title": "Last Name",
+        "company_name": {
+          "default": "default",
+          "title": "Company Name",
           "type": "string"
         },
         "email": {
-          "type": "string",
-          "format": "email",
-          "title": "E-Mail",
           "examples": [
             "john@developer-friendly.blog"
           ],
+          "format": "email",
           "minLength": 3,
           "ory.sh/kratos": {
             "credentials": {
               "password": {
                 "identifier": true
               },
-              "webauthn": {
-                "identifier": true
-              },
               "totp": {
                 "account_name": true
+              },
+              "webauthn": {
+                "identifier": true
               }
-            },
-            "verification": {
-              "via": "email"
             },
             "recovery": {
               "via": "email"
+            },
+            "verification": {
+              "via": "email"
             }
-          }
+          },
+          "title": "E-Mail",
+          "type": "string"
         },
-        "company_name": {
-          "type": "string",
-          "title": "Company Name",
-          "default": "default"
+        "first_name": {
+          "title": "First Name",
+          "type": "string"
         },
         "job_title": {
-          "type": "string",
+          "default": "Not Set",
           "title": "Job Title",
-          "default": "Not Set"
+          "type": "string"
+        },
+        "last_name": {
+          "title": "Last Name",
+          "type": "string"
         }
       },
       "required": [
@@ -61,7 +59,9 @@
         "company_name",
         "job_title"
       ],
-      "additionalProperties": false
+      "type": "object"
     }
-  }
+  },
+  "title": "User",
+  "type": "object"
 }
