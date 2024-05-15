@@ -1,3 +1,10 @@
+:root {
+  --primary-color: rgb(19, 18, 18);
+  --secondary-color: #6c757d;
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,142 +12,146 @@
 }
 
 body {
-  align-items: center;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  display: flex;
   font-family: Arial, sans-serif;
-  height: 100vh;
-  justify-content: center;
   line-height: 1.6;
-  margin-top: 20px;
-  margin: 0;
-  padding: 10px 20px;
+  background-color: var(--light-color);
 }
 
-/* Container Styling */
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px 200px;
-}
-
-/* Card Styling */
-.card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  width: 100%;
-  max-width: 400px;
+header {
+  background: var(--primary-color);
+  color: var(--light-color);
+  padding: 1rem 0;
   text-align: center;
 }
 
-/* Heading Styling */
-.card h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* Form Styling */
-form {
+header nav ul {
+  list-style: none;
+  padding: 0;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  border: 1px solid #ccc;
+header nav ul li {
+  margin: 0 1rem;
+}
+
+header nav ul li a {
+  color: var(--light-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+header nav ul li a:hover {
+  background-color: var(--primary-color);
   border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 15px;
+}
+
+main {
+  padding: 2rem;
+  min-height: 80vh;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: calc(100% - 22px);
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
   font-size: 16px;
 }
 
-button {
-  background-color: #007bff;
-  border-radius: 4px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
+.button {
+  display: inline-block;
   padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
 }
 
-/* Link Styling */
-a {
-  color: #007bff;
+.button:active {
+  background-color: var(--primary-color);
+  transform: scale(0.98);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.button:disabled {
+  background-color: var(--secondary-color);
+  cursor: not-allowed;
+}
+
+footer {
+  background: var(--primary-color);
+  color: var(--light-color);
+  text-align: center;
+  padding: 1rem 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+footer a {
+  color: var(--light-color);
   text-decoration: none;
 }
 
-a:hover {
+footer a:hover {
   text-decoration: underline;
 }
 
-/* Additional Utility Classes */
-.mt-1 {
-  margin-top: 10px;
-}
-.mt-2 {
-  margin-top: 20px;
-}
-.mt-3 {
-  margin-top: 30px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-#app {
-  align-items: center; /* Center content horizontally */
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  height: auto; /* Ensure it doesn't stretch vertically */
-  max-height: 90%; /* Prevent it from exceeding 90% of the viewport height */
-  max-width: 90%;
-  overflow: auto;
-  padding: 20px;
-  position: relative; /* Ensure proper stacking context */
-  width: 400px; /* Fixed width for the dialog box */
-  min-width: 600px;
-}
-
 @media (max-width: 600px) {
-  #app {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
+  header nav ul {
+    flex-direction: column;
   }
+
+  header nav ul li {
+    margin: 0.5rem 0;
+  }
+}
+
+.required {
+  color: var(--danger-color);
 }

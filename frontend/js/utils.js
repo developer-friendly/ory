@@ -25,9 +25,7 @@ async function _getFlowInfo(flow, flowId) {
   }
 }
 
-export async function getFlowInfo(flow) {
-  var flowId = new URLSearchParams(window.location.search).get("flow");
-
+export async function getFlowInfo(flow, flowId) {
   if (!flowId) {
     window.location = `${kratosHost}/self-service/${flow}/browser`;
   }
@@ -41,7 +39,7 @@ export async function getFlowInfo(flow) {
   return flowInfo;
 }
 
-export function createFlowForm(flowInfo) {
+export function createFlowForm(flowInfo, submitLabel = null) {
   var form = document.createElement("form");
   form.action = flowInfo.ui.action;
   form.method = flowInfo.ui.method;
@@ -56,14 +54,27 @@ export function createFlowForm(flowInfo) {
       }
       input.type = attr.type;
       input.name = attr.name;
-      input.value = attr.value || "";
+      if (input.type != "submit") {
+        input.value = attr.value || "";
+      } else {
+        input.value = submitLabel || "Submit";
+        input.classList.add("button");
+      }
       if (attr.required) {
         input.required = true;
+        if (attr.type != "hidden") {
+          var required = document.createElement("span");
+          required.innerText = " *";
+          required.className = "required";
+          label.appendChild(required);
+        }
       }
       if (attr.disabled) {
         input.disabled = true;
       }
-      form.appendChild(label);
+      if (input.type != "submit") {
+        form.appendChild(label);
+      }
       form.appendChild(input);
     }
   });

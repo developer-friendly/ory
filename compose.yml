@@ -1,11 +1,15 @@
 services:
   frontend:
-    image: ghcr.io/meysam81/github-actions-dynamic-matrix/httpd-server:main
+    image: ghcr.io/static-web-server/static-web-server:2
+    command:
+      - --config-file
+      - /config.toml
     user: "1000:1000"
     volumes:
       - ./frontend:/www:ro
+      - ./frontend-config/config.toml:/config.toml:ro
     ports:
-      - "8080:8080"
+      - "8080:80"
   kratos-migrate:
     image: oryd/kratos:v1.1.0
     command:

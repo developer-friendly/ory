@@ -12,7 +12,7 @@ selfservice:
         default_browser_return_url: http://localhost:8080
     registration:
       login_hints: false
-      ui_url: http://localhost:8080/registration.html
+      ui_url: http://localhost:8080/register
       lifespan: 1h
       before:
         hooks:
@@ -103,7 +103,7 @@ selfservice:
               response:
                 ignore: true
         default_browser_return_url: http://localhost:8080
-      ui_url: http://localhost:8080/login.html
+      ui_url: http://localhost:8080/login
     verification:
       ui_url: http://localhost:8080/verify
       after:
