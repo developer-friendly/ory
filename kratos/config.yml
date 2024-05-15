@@ -331,17 +331,6 @@ serve:
     cors:
       allowed_origins:
         - http://localhost:8080
-      allowed_methods:
-        - POST
-        - GET
-        - OPTIONS
-      allow_credentials: true
-      allowed_headers:
-        - Authorization
-        - Content-Type
-        - Cookie
-        - Origin
-        - X-CSRF-Token
       options_passthrough: true
       max_age: 0
       debug: true
