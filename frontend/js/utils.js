@@ -44,6 +44,8 @@ export function createFlowForm(flowInfo, submitLabel = null) {
   form.action = flowInfo.ui.action;
   form.method = flowInfo.ui.method;
 
+  var autofocus = false;
+
   flowInfo.ui.nodes.forEach(function parseNode(node) {
     if (node.type === "input") {
       var input = document.createElement("input");
@@ -75,6 +77,12 @@ export function createFlowForm(flowInfo, submitLabel = null) {
       if (input.type != "submit") {
         form.appendChild(label);
       }
+
+      if (!autofocus && input.type != "hidden") {
+        input.autofocus = true;
+        autofocus = true;
+      }
+
       form.appendChild(input);
     }
   });
