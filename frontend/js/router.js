@@ -27,9 +27,11 @@ const Router = {
 
     switch (true) {
       case route.startsWith("/login"):
+        document.title = "Login - Developer Friendly";
         pageElement = await LoginForm();
         break;
       default:
+        document.title = "Developer Friendly";
         pageElement = document.createElement("h1");
         pageElement.textContent = `Page ${route}`;
     }
