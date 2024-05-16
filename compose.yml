@@ -7,7 +7,7 @@ services:
     user: "1000:1000"
     volumes:
       - ./frontend/dist:/www:ro
-      - ./frontend-config/config.toml:/config.toml:ro
+      - ./frontend/static-server-config.toml:/config.toml:ro
     ports:
       - "8080:80"
   kratos-migrate:
@@ -48,9 +48,19 @@ services:
       POSTGRES_USER: ory
       POSTGRES_PASSWORD: ory
   echo-server:
-    image: ghcr.io/developer-friendly/echo-server:9051352755
+    image: ealen/echo-server:0.9.2
     expose:
       - "3000"
+    environment:
+      - PORT=3000
+      - LOGS__IGNORE__PING=false
+      - ENABLE__HOST=true
+      - ENABLE__HTTP=true
+      - ENABLE__REQUEST=true
+      - ENABLE__COOKIES=true
+      - ENABLE__HEADER=true
+      - ENABLE__ENVIRONMENT=false
+      - ENABLE__FILE=false
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     expose:
