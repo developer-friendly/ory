@@ -21,28 +21,41 @@ export async function getFlowInfo(flow, flowId) {
   }
 }
 
-export function createFlowForm(flowInfo, submitLabel = null) {
+export function createFlowForm(flowInfo, submitLabel = "Submit") {
   var form = document.createElement("form");
-  form.action = flowInfo.ui.action;
+
+  var bareAction = flowInfo.ui.action;
+  form.action =
+    bareAction +
+    (bareAction.includes("?") ? "&" : "?") +
+    "return_to=http://localhost:8080";
   form.method = flowInfo.ui.method;
 
   var autofocus = false;
 
   flowInfo.ui.nodes.forEach(function parseNode(node) {
-    if (node.type === "input") {
-      var input = document.createElement("input");
+    if (node.type == "input") {
       var attr = node.attributes;
+      var isSubmit = attr.type == "submit";
+      var input = document.createElement("input");
       var label = document.createElement("label");
+
+      if (isSubmit) {
+        input = document.createElement("button");
+      }
+
       if (node.meta && node.meta.label && node.meta.label.text) {
         label.innerText = node.meta.label.text;
       }
       input.type = attr.type;
       input.name = attr.name;
-      if (input.type != "submit") {
-        input.value = attr.value || "";
-      } else {
-        input.value = submitLabel || "Submit";
+      input.value = attr.value || "";
+
+      if (isSubmit) {
         input.classList.add("button");
+        var span = document.createElement("span");
+        span.innerText = submitLabel;
+        input.appendChild(span);
       }
       if (attr.required) {
         input.required = true;
@@ -56,7 +69,7 @@ export function createFlowForm(flowInfo, submitLabel = null) {
       if (attr.disabled) {
         input.disabled = true;
       }
-      if (input.type != "submit") {
+      if (!isSubmit) {
         form.appendChild(label);
       }
 
@@ -69,11 +82,16 @@ export function createFlowForm(flowInfo, submitLabel = null) {
     }
   });
 
+  form.classList.add("form");
+
   return form;
 }
 
 export async function initFlow(flow) {
-  return await fetch(`${kratosHost}/self-service/${flow}/browser`, fetchOptions);
+  return await fetch(
+    `${kratosHost}/self-service/${flow}/browser`,
+    fetchOptions
+  );
 }
 
 export async function isLoggedIn() {

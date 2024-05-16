@@ -1,4 +1,4 @@
-import { createFlowForm, getFlowInfo, initFlow } from "./utils.js";
+import { createFlowForm, getFlowInfo, initFlow, whoami } from "./utils.js";
 
 async function createForm(flowId) {
   console.log("Login Flow ID", flowId);
@@ -8,6 +8,10 @@ async function createForm(flowId) {
     flowInfo = await initFlow("login");
 
     flowId = new URL(flowInfo.url).searchParams.get("flow");
+  }
+
+  if (!flowId && (await whoami()).status == 200) {
+    window.location.href = "/";
   }
 
   flowInfo = await getFlowInfo("login", flowId);

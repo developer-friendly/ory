@@ -30,7 +30,7 @@ const Router = {
     switch (true) {
       case route == "/":
         document.title = "Developer Friendly";
-        pageElement = IndexForm();
+        pageElement = await IndexForm();
         break;
       case route.startsWith("/login"):
         document.title = "Login - Developer Friendly";
