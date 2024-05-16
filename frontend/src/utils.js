@@ -82,8 +82,6 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
     }
   });
 
-  form.classList.add("form");
-
   return form;
 }
 

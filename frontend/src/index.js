@@ -12,16 +12,25 @@ function defaultForm() {
 }
 
 function loggedInForm(userJson) {
+  var email_verified = userJson.identity.verifiable_addresses.find(
+    function findEmailVerified(emailObj) {
+      return (
+        emailObj.value == userJson.identity.traits.email &&
+        emailObj.verified == true
+      );
+    }
+  );
+
   var columns = {
-    "Email": userJson.identity.traits.email,
+    Email: userJson.identity.traits.email,
     "First Name": userJson.identity.traits.first_name,
     "Last Name": userJson.identity.traits.last_name,
     "Company Name": userJson.identity.traits.company_name,
     "Job Title": userJson.identity.traits.job_title,
-  }
+    "Email Verified": email_verified ? "Yes" : "No",
+  };
 
-  console.log(userJson);
-  var email = userJson.identity.traits.email;
+  console.log("User info", userJson);
   var table = document.createElement("table");
 
   for (var key in columns) {
@@ -34,9 +43,6 @@ function loggedInForm(userJson) {
     tr.appendChild(td);
     table.appendChild(tr);
   }
-
-  table.classList.add("form");
-
   return table;
 }
 
@@ -48,5 +54,4 @@ export default async function createForm() {
   } else {
     return loggedInForm(await userInfo.json());
   }
-
 }
