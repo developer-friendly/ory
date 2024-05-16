@@ -6,7 +6,7 @@ services:
       - /config.toml
     user: "1000:1000"
     volumes:
-      - ./frontend:/www:ro
+      - ./frontend/dist:/www:ro
       - ./frontend-config/config.toml:/config.toml:ro
     ports:
       - "8080:80"

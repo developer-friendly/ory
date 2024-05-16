@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "vite": "^5.2.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "@types/bun": "latest",
+    "eslint": "^9.2.0",
+    "globals": "^15.2.0"
+  },
+  "module": "app.js",
+  "name": "ory-client",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "type": "module"
+}
