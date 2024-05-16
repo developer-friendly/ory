@@ -5,9 +5,12 @@
     "traits": {
       "additionalProperties": false,
       "properties": {
-        "company_name": {
-          "default": "default",
-          "title": "Company Name",
+        "first_name": {
+          "title": "First Name",
+          "type": "string"
+        },
+        "last_name": {
+          "title": "Last Name",
           "type": "string"
         },
         "email": {
@@ -38,17 +41,14 @@
           "title": "E-Mail",
           "type": "string"
         },
-        "first_name": {
-          "title": "First Name",
+        "company_name": {
+          "default": "default",
+          "title": "Company Name",
           "type": "string"
         },
         "job_title": {
           "default": "Not Set",
           "title": "Job Title",
-          "type": "string"
-        },
-        "last_name": {
-          "title": "Last Name",
           "type": "string"
         }
       },

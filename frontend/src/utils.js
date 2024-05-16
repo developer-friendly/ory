@@ -12,6 +12,7 @@ export async function getFlowInfo(flow, flowId) {
   switch (flow) {
     case "login":
     case "registration":
+    case "verification":
       return await fetch(
         `${kratosHost}/self-service/${flow}/flows?id=${flowId}`,
         fetchOptions
@@ -33,10 +34,13 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
 
   var autofocus = false;
 
+  var passwordField, passwordLabel;
+
   flowInfo.ui.nodes.forEach(function parseNode(node) {
     if (node.type == "input") {
       var attr = node.attributes;
       var isSubmit = attr.type == "submit";
+      var isPassword = attr.type == "password";
       var input = document.createElement("input");
       var label = document.createElement("label");
 
@@ -69,7 +73,7 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
       if (attr.disabled) {
         input.disabled = true;
       }
-      if (!isSubmit) {
+      if (!isSubmit && !isPassword) {
         form.appendChild(label);
       }
 
@@ -78,9 +82,19 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
         autofocus = true;
       }
 
-      form.appendChild(input);
+      if (!isPassword) {
+        form.appendChild(input);
+      } else {
+        passwordField = input;
+        passwordLabel = label;
+      }
     }
   });
+
+  if (passwordField) {
+    form[form.length - 1].insertAdjacentElement("beforebegin", passwordLabel);
+    form[form.length - 1].insertAdjacentElement("beforebegin", passwordField);
+  }
 
   return form;
 }

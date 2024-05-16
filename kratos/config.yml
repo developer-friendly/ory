@@ -102,6 +102,7 @@ selfservice:
               emit_analytics_event: false
               response:
                 ignore: true
+          - hook: require_verified_address
         default_browser_return_url: http://localhost:8080
       ui_url: http://localhost:8080/login
     verification:
@@ -363,7 +364,7 @@ serve:
 #       local_agent_address: 127.0.0.1:6831
 #   provider: jaeger
 log:
-  leak_sensitive_values: false
+  leak_sensitive_values: true
   redaction_text: ""
   format: json
   level: trace

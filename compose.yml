@@ -9,7 +9,7 @@ services:
       - ./frontend/dist:/www:ro
       - ./frontend/static-server-config.toml:/config.toml:ro
     ports:
-      - "8080:80"
+      - "8081:80"
   kratos-migrate:
     image: oryd/kratos:v1.1.0
     command:
@@ -26,6 +26,8 @@ services:
     image: oryd/kratos:v1.1.0
     command:
       - serve
+      - --watch-courier
+      - --dev
       - --config
       - /etc/kratos/config.yml
     volumes:
