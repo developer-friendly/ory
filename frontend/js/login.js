@@ -1,5 +1,4 @@
 import { createFlowForm, getFlowInfo, initFlow } from "./utils.js";
-import { kratosHost } from "./config.js";
 
 async function createForm(flowId) {
   console.log("Login Flow ID", flowId);
