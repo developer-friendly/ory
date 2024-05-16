@@ -1,10 +1,6 @@
 import { kratosHost } from "./config.js";
 
-var headers = {
-  Accept: "application/json",
-};
 var fetchOptions = {
-  headers: headers,
   credentials: "include",
 };
 
@@ -12,7 +8,7 @@ export async function whoami() {
   return await fetch(`${kratosHost}/sessions/whoami`, fetchOptions);
 }
 
-async function _getFlowInfo(flow, flowId) {
+export async function getFlowInfo(flow, flowId) {
   switch (flow) {
     case "login":
     case "registration":
@@ -23,20 +19,6 @@ async function _getFlowInfo(flow, flowId) {
     default:
       console.error("Unknown flow type", flow);
   }
-}
-
-export async function getFlowInfo(flow, flowId) {
-  if (!flowId) {
-    window.location = `${kratosHost}/self-service/${flow}/browser`;
-  }
-
-  var flowInfo = await _getFlowInfo(flow, flowId);
-
-  if (flowInfo.status != 200) {
-    window.location = `${kratosHost}/self-service/${flow}/browser`;
-  }
-
-  return flowInfo;
 }
 
 export function createFlowForm(flowInfo, submitLabel = null) {
@@ -90,8 +72,16 @@ export function createFlowForm(flowInfo, submitLabel = null) {
   return form;
 }
 
+export async function initFlow(flow) {
+  return await fetch(`${kratosHost}/self-service/${flow}/browser`, fetchOptions);
+}
+
 export async function isLoggedIn() {
-  if ((await whoami()).status == 200) {
-    window.location = "/";
+  try {
+    var whoamiResponse = await whoami();
+    return whoamiResponse.status == 200;
+  } catch (e) {
+    console.error(e);
+    return false;
   }
 }

@@ -1,16 +1,23 @@
-import { createFlowForm, getFlowInfo, isLoggedIn } from "./utils.js";
+import { createFlowForm, getFlowInfo, initFlow } from "./utils.js";
+import { kratosHost } from "./config.js";
 
-async function createForm() {
-  var flowId = new URLSearchParams(window.location.search).get("flow");
-
+async function createForm(flowId) {
   console.log("Login Flow ID", flowId);
+  var flowInfo;
 
   if (!flowId) {
-    isLoggedIn();
+    flowInfo = await initFlow("login");
+
+    flowId = new URL(flowInfo.url).searchParams.get("flow");
   }
 
-  var loginInfo = await getFlowInfo("login", flowId);
-  var loginJson = await loginInfo.json();
+  flowInfo = await getFlowInfo("login", flowId);
+
+  if (flowInfo.status != 200) {
+    return await createForm();
+  }
+
+  var loginJson = await flowInfo.json();
 
   console.log(loginJson);
 

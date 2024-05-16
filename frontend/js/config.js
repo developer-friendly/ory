@@ -1,1 +1,1 @@
-export const kratosHost = "http://localhost:4433"
+export const kratosHost = "http://localhost:4433";
