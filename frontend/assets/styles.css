@@ -157,3 +157,12 @@ footer a:hover {
 .required {
   color: var(--danger-color);
 }
+
+i {
+  margin-right: 0.3rem;
+}
+
+
+footer img {
+  margin-right: 0.3rem;
+}
