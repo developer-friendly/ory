@@ -4,6 +4,7 @@ import RegisterForm from "./register.js";
 import VerifyForm from "./verify.js";
 import RecoveryForm from "./recovery.js";
 import SettingsForm from "./settings.js";
+import LogOutForm from "./logout.js";
 
 const Router = {
   init: async function init_() {
@@ -54,6 +55,10 @@ const Router = {
       case route.startsWith("/settings"):
         document.title = "Settings - Developer Friendly";
         pageElement = await SettingsForm();
+        break;
+      case route.startsWith("/logout"):
+        document.title = "Log Out - Developer Friendly";
+        pageElement = await LogOutForm();
         break;
       default:
         document.title = "Developer Friendly";

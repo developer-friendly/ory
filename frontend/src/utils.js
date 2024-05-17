@@ -8,16 +8,22 @@ export async function whoami() {
   return await fetch(`${kratosHost}/sessions/whoami`, fetchOptions);
 }
 
-export async function getFlowInfo(flow, flowId) {
+export async function getFlowInfo(flow, flowId, extraHeaders = {}) {
   switch (flow) {
     case "login":
     case "registration":
     case "verification":
     case "recovery":
     case "settings":
+    case "logout":
       return await fetch(
         `${kratosHost}/self-service/${flow}/flows?id=${flowId}`,
-        fetchOptions
+        {
+          ...fetchOptions,
+          headers: {
+            ...extraHeaders,
+          },
+        }
       );
     default:
       console.error("Unknown flow type", flow);
@@ -101,10 +107,15 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
   return form;
 }
 
-export async function initFlow(flow) {
+export async function initFlow(flow, extraHeaders = {}) {
   return await fetch(
     `${kratosHost}/self-service/${flow}/browser`,
-    fetchOptions
+    {
+      ...fetchOptions,
+      headers: {
+        ...extraHeaders,
+      },
+    }
   );
 }
 

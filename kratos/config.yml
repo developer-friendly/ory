@@ -332,6 +332,9 @@ serve:
     cors:
       allowed_origins:
         - http://localhost:8080
+      allowed_headers:
+        - content-type
+        - Accept
       options_passthrough: true
       max_age: 0
       debug: true
