@@ -2,6 +2,7 @@ import IndexForm from "./index.js";
 import LoginForm from "./login.js";
 import RegisterForm from "./register.js";
 import VerifyForm from "./verify.js";
+import RecoveryForm from "./recovery.js";
 
 const Router = {
   init: async function init_() {
@@ -44,6 +45,10 @@ const Router = {
       case route.startsWith("/verify"):
         document.title = "Verify - Developer Friendly";
         pageElement = await VerifyForm();
+        break;
+      case route.startsWith("/recovery"):
+        document.title = "Recovery - Developer Friendly";
+        pageElement = await RecoveryForm();
         break;
       default:
         document.title = "Developer Friendly";

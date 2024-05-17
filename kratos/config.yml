@@ -135,7 +135,7 @@ selfservice:
       notify_unknown_recipients: false
       enabled: true
     recovery:
-      ui_url: http://localhost:8080/verify
+      ui_url: http://localhost:8080/recovery
       after:
         hooks:
           - hook: web_hook

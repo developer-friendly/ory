@@ -13,6 +13,7 @@ export async function getFlowInfo(flow, flowId) {
     case "login":
     case "registration":
     case "verification":
+    case "recovery":
       return await fetch(
         `${kratosHost}/self-service/${flow}/flows?id=${flowId}`,
         fetchOptions
