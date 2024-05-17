@@ -1,4 +1,4 @@
-import { kratosHost } from "./config.js";
+import { kratosHost, baseUrl } from "./config.js";
 
 var fetchOptions = {
   credentials: "include",
@@ -29,7 +29,7 @@ export function createFlowForm(flowInfo, submitLabel = "Submit") {
   form.action =
     bareAction +
     (bareAction.includes("?") ? "&" : "?") +
-    "return_to=http://localhost:8080";
+    `return_to=${baseUrl}`;
   form.method = flowInfo.ui.method;
 
   var autofocus = false;
