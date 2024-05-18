@@ -1,7 +1,11 @@
-import { createFlowForm, getFlowInfo, initFlow, whoami } from "./utils.js";
+import { createFlowForm, getFlowInfo, initFlow, whoami,kratosHost } from "./utils.js";
 
 async function createForm(flowId) {
   console.log("Login Flow ID", flowId);
+
+  window.location.href = `${kratosHost}/self-service/login/browser`;
+  return;
+
   var flowInfo;
 
   if (!flowId) {
