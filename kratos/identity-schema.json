@@ -53,11 +53,7 @@
         }
       },
       "required": [
-        "email",
-        "first_name",
-        "last_name",
-        "company_name",
-        "job_title"
+        "email"
       ],
       "type": "object"
     }
