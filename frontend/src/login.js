@@ -4,16 +4,15 @@ import { kratosHost } from "./config.js";
 async function createForm(flowId) {
   console.log("Login Flow ID", flowId);
 
-  window.location.href = `${kratosHost}/self-service/login/browser`;
-  return;
-
   var flowInfo;
 
   if (!flowId) {
     flowInfo = await initFlow("login");
 
-    flowId = new URL(flowInfo.url).searchParams.get("flow");
+    window.location.href = `${kratosHost}/self-service/login/browser`;
   }
+
+  flowId = new URL(flowInfo.url).searchParams.get("flow");
 
   if (!flowId && (await whoami()).status == 200) {
     window.location.href = "/";
