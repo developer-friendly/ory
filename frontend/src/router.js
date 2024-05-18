@@ -31,6 +31,8 @@ const Router = {
     }
     let pageElement = null;
 
+    var flowId = new URL(location.href).searchParams.get("flow");
+
     switch (true) {
       case route == "/":
         document.title = "Developer Friendly";
@@ -38,27 +40,27 @@ const Router = {
         break;
       case route.startsWith("/login"):
         document.title = "Login - Developer Friendly";
-        pageElement = await LoginForm();
+        pageElement = await LoginForm(flowId);
         break;
       case route.startsWith("/register"):
         document.title = "Register - Developer Friendly";
-        pageElement = await RegisterForm();
+        pageElement = await RegisterForm(flowId);
         break;
       case route.startsWith("/verify"):
         document.title = "Verify - Developer Friendly";
-        pageElement = await VerifyForm();
+        pageElement = await VerifyForm(flowId);
         break;
       case route.startsWith("/recovery"):
         document.title = "Recovery - Developer Friendly";
-        pageElement = await RecoveryForm();
+        pageElement = await RecoveryForm(flowId);
         break;
       case route.startsWith("/settings"):
         document.title = "Settings - Developer Friendly";
-        pageElement = await SettingsForm();
+        pageElement = await SettingsForm(flowId);
         break;
       case route.startsWith("/logout"):
         document.title = "Log Out - Developer Friendly";
-        pageElement = await LogOutForm();
+        pageElement = await LogOutForm(flowId);
         break;
       default:
         document.title = "Developer Friendly";

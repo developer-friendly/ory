@@ -12,8 +12,6 @@ async function createForm(flowId) {
     window.location.href = `${kratosHost}/self-service/login/browser`;
   }
 
-  flowId = new URL(flowInfo.url).searchParams.get("flow");
-
   if (!flowId && (await whoami()).status == 200) {
     window.location.href = "/";
   }
