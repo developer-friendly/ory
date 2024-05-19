@@ -31,7 +31,7 @@ const Router = {
 
     switch (true) {
       case route == "/":
-        document.title = "Developer Friendly";
+        document.title = "Ory Example - Developer Friendly";
         pageElement = await IndexForm();
         break;
       case route.startsWith("/login"):
@@ -59,7 +59,7 @@ const Router = {
         pageElement = await LogOutForm(flowId);
         break;
       default:
-        document.title = "Developer Friendly";
+        document.title = "Ory Example - Developer Friendly";
         pageElement = document.createElement("h1");
         pageElement.textContent = `Page ${route}`;
     }
