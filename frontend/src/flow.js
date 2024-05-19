@@ -1,27 +1,36 @@
 import { createFlowForm, getFlowInfo, initFlow, whoami } from "./utils.js";
 
 async function createForm(flowId, flowName) {
-  console.log(flowName, "Flow ID", flowId)
+  console.log(flowName, "Flow ID", flowId);
 
-  var flowInfo;
+  var flowInfo, flowJson;
 
   if (!flowId) {
-    flowInfo = await initFlow(flowName);
+    var headers = {
+      Accept: "application/json",
+    };
 
-    flowId = new URL(flowInfo.url).searchParams.get("flow");
+    flowInfo = await initFlow(flowName, headers);
+    flowJson = await flowInfo.json();
+
+    flowId = flowJson.id;
   }
 
   if (!flowId && (await whoami()).status == 200) {
     window.location.href = "/";
   }
 
-  flowInfo = await getFlowInfo(flowName, flowId);
+  if (!flowInfo) {
+    flowInfo = await getFlowInfo(flowName, flowId);
+  }
 
   if (flowInfo.status != 200) {
     return await createForm(null, flowName);
   }
 
-  var flowJson = await flowInfo.json();
+  if (!flowJson) {
+    flowJson = await flowInfo.json();
+  }
 
   console.log(flowJson);
 
