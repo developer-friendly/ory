@@ -7,7 +7,7 @@ async function createForm(flowId, flowName) {
 
   if (!flowId) {
     var headers = {
-      Accept: "application/json",
+      accept: "application/json",
     };
 
     flowInfo = await initFlow(flowName, headers);
