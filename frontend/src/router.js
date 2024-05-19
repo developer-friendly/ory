@@ -1,10 +1,6 @@
 import IndexForm from "./index.js";
-import LoginForm from "./login.js";
-import RegisterForm from "./register.js";
-import VerifyForm from "./verify.js";
-import RecoveryForm from "./recovery.js";
-import SettingsForm from "./settings.js";
 import LogOutForm from "./logout.js";
+import CreateForm from "./flow.js";
 
 const Router = {
   init: async function init_() {
@@ -40,23 +36,23 @@ const Router = {
         break;
       case route.startsWith("/login"):
         document.title = "Login - Developer Friendly";
-        pageElement = await LoginForm(flowId);
+        pageElement = await CreateForm(flowId, "login");
         break;
       case route.startsWith("/register"):
         document.title = "Register - Developer Friendly";
-        pageElement = await RegisterForm(flowId);
+        pageElement = await CreateForm(flowId, "registration");
         break;
       case route.startsWith("/verify"):
         document.title = "Verify - Developer Friendly";
-        pageElement = await VerifyForm(flowId);
+        pageElement = await CreateForm(flowId, "verification");
         break;
       case route.startsWith("/recovery"):
         document.title = "Recovery - Developer Friendly";
-        pageElement = await RecoveryForm(flowId);
+        pageElement = await CreateForm(flowId, "recovery");
         break;
       case route.startsWith("/settings"):
         document.title = "Settings - Developer Friendly";
-        pageElement = await SettingsForm(flowId);
+        pageElement = await CreateForm(flowId, "settings");
         break;
       case route.startsWith("/logout"):
         document.title = "Log Out - Developer Friendly";
