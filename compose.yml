@@ -11,7 +11,7 @@ services:
     ports:
       - "8081:80"
   kratos-migrate:
-    image: oryd/kratos:v1.1.0
+    image: oryd/kratos:v1.3.1
     command:
       - migrate
       - sql
@@ -23,7 +23,7 @@ services:
       - ./kratos:/etc/kratos:ro
     restart: on-failure
   kratos:
-    image: oryd/kratos:v1.1.0
+    image: oryd/kratos:v1.3.1
     command:
       - serve
       - --watch-courier
